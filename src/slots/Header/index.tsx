@@ -59,7 +59,8 @@ const useStyle = () => {
 
   return {
     header: css`
-      position: relative;
+      width: 100%;
+      position: fixed;
       z-index: 10;
       max-width: 100%;
       background: ${token.colorBgContainer};

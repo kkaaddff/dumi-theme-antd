@@ -210,7 +210,7 @@ const Sidebar: FC = () => {
       ) : null}
     </React.Fragment>
   ) : (
-    <Col xxl={4} xl={5} lg={6} md={6} sm={24} xs={24} css={styles.mainMenu}>
+    <Col xxl={4} xl={5} lg={5} md={5} sm={24} xs={24} css={styles.mainMenu}>
       <Affix>
         <section className="main-menu-inner">{menuChild}</section>
       </Affix>

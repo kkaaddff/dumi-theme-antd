@@ -75,7 +75,7 @@ const useStyle = () => {
       }
     `,
     articleWrapper: css`
-      padding: 0 170px 32px 64px;
+      padding: 0 170px 30px 40px;
       flex: 1;
 
       &.rtl {
@@ -156,9 +156,9 @@ const Content: FC<{ children: ReactNode }> = ({ children }) => {
   const isRTL = direction === 'rtl';
 
   return (
-    <Col xxl={20} xl={19} lg={18} md={18} sm={24} xs={24} css={styles.colContent}>
+    <Col xxl={20} xl={19} lg={19} md={19} sm={24} xs={24} css={styles.colContent}>
       {!!meta.frontmatter.toc && (
-        <Affix>
+        <Affix offsetTop={80}>
           <section css={styles.tocWrapper} className={classNames({ rtl: isRTL })}>
             <Anchor
               css={styles.toc}
