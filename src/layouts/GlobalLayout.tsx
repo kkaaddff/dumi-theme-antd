@@ -6,7 +6,7 @@ import {
   StyleProvider,
   extractStyle
 } from '@ant-design/cssinjs';
-import { ConfigProvider, theme as antdTheme } from 'antd';
+import { ConfigProvider, FloatButton, theme as antdTheme } from 'antd';
 import { Outlet, usePrefersColor, useServerInsertedHTML } from 'dumi';
 import type { FC } from 'react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -133,10 +133,13 @@ const GlobalLayout: FC = () => {
       >
         <Outlet />
         {prefersColor.switch && (
-          <ThemeSwitch
-            value={theme}
-            onChange={(nextTheme) => updateSiteConfig({ theme: nextTheme })}
-          />
+          <>
+            <FloatButton.BackTop style={{ bottom: 24 + 75 }} />
+            <ThemeSwitch
+              value={theme}
+              onChange={(nextTheme) => updateSiteConfig({ theme: nextTheme })}
+            />
+          </>
         )}
       </ConfigProvider>
     </SiteContext.Provider>

@@ -1,4 +1,4 @@
-import { GithubOutlined } from '@ant-design/icons';
+import { GitlabOutlined, GithubOutlined } from '@ant-design/icons';
 import { css } from '@emotion/react';
 import { Tooltip } from 'antd';
 import { type FC } from 'react';
@@ -48,7 +48,7 @@ const useStyle = () => {
 };
 
 const HeaderExtra: FC = () => {
-  const { github, socialLinks } = useAdditionalThemeConfig();
+  const { github, gitlab, socialLinks } = useAdditionalThemeConfig();
   const style = useStyle();
   return (
     <div>
@@ -57,6 +57,15 @@ const HeaderExtra: FC = () => {
           <a key="github" href={github || socialLinks?.github} target="_blank" rel="noreferrer">
             <button css={[style.btn]} type="button">
               <GithubOutlined />
+            </button>
+          </a>
+        </Tooltip>
+      ) : null}
+      {gitlab || socialLinks?.gitlab ? (
+        <Tooltip title="Github">
+          <a key="github" href={gitlab || socialLinks?.gitlab} target="_blank" rel="noreferrer">
+            <button css={[style.btn]} type="button">
+              <GitlabOutlined />
             </button>
           </a>
         </Tooltip>

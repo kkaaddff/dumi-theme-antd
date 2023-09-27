@@ -83,6 +83,8 @@ export interface IBannerConfig {
 interface IAdditionalThemeConfig {
   /** github 链接 */
   github?: string;
+  /** gitlab 链接 */
+  gitlab?: string;
   /** 首页链接 */
   homeLink?: string;
   /** 多语言额外配置，主要用于展示语言切换文字（只针对于两项多语言时） */
