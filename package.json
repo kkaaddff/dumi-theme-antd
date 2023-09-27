@@ -1,6 +1,6 @@
 {
   "name": "@fta/dumi-theme-antd",
-  "version": "0.3.13",
+  "version": "0.3.14",
   "description": "Ant Design 5.0 官网风格类似的 dumi2 主题插件",
   "keywords": [
     "dumi",
@@ -88,10 +88,6 @@
     "dumi": "~2.2.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
-  },
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
   },
   "authors": [
     "KuangPF"
