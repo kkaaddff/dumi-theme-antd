@@ -177,7 +177,8 @@ const Header: FC = () => {
   }, []);
 
   const handleVersionChange = useCallback((url: string) => {
-    window.location.href = url;
+    //* fta 定制打开新窗口
+    window.open(url, '_blank');
   }, []);
 
   useEffect(() => {
