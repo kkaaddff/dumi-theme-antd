@@ -93,21 +93,45 @@ export default function Navigation({ isMobile, responsive }: NavigationProps) {
   const navList = useNavData();
   const locale = useLocale();
   const moreLinks = useLocaleValue('moreLinks');
-  const activeMenuItem = pathname.split('/').slice(0, 2).join('/');
+  const activeMenuItems = pathname
+    .split('/')
+    .map((_, i, arr) => arr.slice(0, i + 1).join('/'))
+    .filter(Boolean);
+
+  const extractLinkKey = (link: string | undefined): string => {
+    return (link ?? '').split('/').slice(0, 2).join('/');
+  };
+
+  const generateLabel = (link: string | undefined, title: string): JSX.Element => {
+    if (isExternalLinks(link)) {
+      return (
+        <a href={`${link}${search}`} target="_blank" rel="noreferrer">
+          {title}
+        </a>
+      );
+    }
+    return <Link to={`${link}${search}`}>{title}</Link>;
+  };
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  const menuItems: MenuProps['items'] = (navList ?? []).map((navItem) => {
-    const linkKeyValue = (navItem.link ?? '').split('/').slice(0, 2).join('/');
+  const menuItems: MenuProps['items'] = (navList ?? []).map(({ link, title, children }) => {
+    const linkKeyValue = extractLinkKey(link);
+
+    if (children) {
+      const childrens = {
+        label: title,
+        key: isExternalLinks(link) ? link : linkKeyValue,
+        children: children.map((child) => ({
+          label: generateLabel(link! + child.link, child.title),
+          key: link! + child.link
+        }))
+      };
+      return childrens;
+    }
     return {
-      label: isExternalLinks(navItem.link) ? (
-        <a href={`${navItem.link}${search}`} target="_blank" rel="noreferrer">
-          {navItem.title}
-        </a>
-      ) : (
-        <Link to={`${navItem.link}${search}`}>{navItem.title}</Link>
-      ),
-      key: isExternalLinks(navItem.link) ? navItem.link : linkKeyValue
+      label: generateLabel(link, title),
+      key: isExternalLinks(link) ? link : linkKeyValue
     };
   });
 
@@ -188,7 +212,7 @@ export default function Navigation({ isMobile, responsive }: NavigationProps) {
       items={items}
       mode={menuMode}
       css={style.nav}
-      selectedKeys={[activeMenuItem]}
+      selectedKeys={[...activeMenuItems]}
       disabledOverflow
     />
   );
