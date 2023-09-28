@@ -156,7 +156,7 @@ const Content: FC<{ children: ReactNode }> = ({ children }) => {
   const isRTL = direction === 'rtl';
 
   return (
-    <Col xxl={20} xl={19} lg={19} md={19} sm={24} xs={24} css={styles.colContent}>
+    <Col xxl={20} xl={20} lg={20} md={20} sm={24} xs={24} css={styles.colContent}>
       {!!meta.frontmatter.toc && (
         <Affix offsetTop={80}>
           <section css={styles.tocWrapper} className={classNames({ rtl: isRTL })}>
