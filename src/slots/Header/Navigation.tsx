@@ -123,7 +123,7 @@ export default function Navigation({ isMobile, responsive }: NavigationProps) {
         label: title,
         key: isExternalLinks(link) ? link : linkKeyValue,
         children: children.map((child) => ({
-          label: generateLabel(link! + child.link, child.title),
+          label: generateLabel(child.link, child.title),
           key: link! + child.link
         }))
       };

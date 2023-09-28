@@ -75,7 +75,7 @@ const useStyle = () => {
       }
     `,
     articleWrapper: css`
-      padding: 0 170px 30px 40px;
+      padding: 0 170px 30px 30px;
       flex: 1;
 
       &.rtl {
