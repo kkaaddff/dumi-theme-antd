@@ -105,7 +105,6 @@ export default function Navigation({ isMobile, responsive }: NavigationProps) {
   const { github, socialLinks } = useAdditionalThemeConfig();
 
   // 统一使用 themeConfig.nav，使用 useNavData，当存在自定义 pages 时，会导致 nav 混乱
-  debugger;
   const navList = useNavData();
   const locale = useLocale();
   const moreLinks = useLocaleValue('moreLinks');

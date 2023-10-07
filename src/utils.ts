@@ -50,11 +50,19 @@ export const handleFullSidebarData = (
       }
       // 找找二级菜单名称以及顺序
       const _levelTwoNavInfo = _levelTwoNav?.frontmatter?.nav;
+      const _levelTwoGroupInfo = _levelTwoNav?.frontmatter?.group;
       const frontmatterNavSecond: { order: number; title?: string } = {
         order: 0,
         title: undefined
       };
-      if (typeof _levelTwoNavInfo !== 'string') {
+      if (typeof _levelTwoGroupInfo !== 'string') {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        frontmatterNavSecond.order = _levelTwoGroupInfo?.order ?? 0;
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        frontmatterNavSecond.title = _levelTwoGroupInfo?.title;
+      } else if (typeof _levelTwoNavInfo !== 'string') {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         if (_levelTwoNavInfo?.second === 'ignore') {

@@ -95,7 +95,6 @@ const useMenu = (options: UseMenuOptions = {}): [MenuProps['items'], string] => 
         };
       }
       if (isGroupMenu(menu)) {
-        // menu: { type: 'group', title: '组件', children: ['/components/button', { title: 'Installation', children: ['/aaa'] }] }
         return {
           type: 'group',
           label: menu.title,
@@ -131,7 +130,6 @@ const useMenu = (options: UseMenuOptions = {}): [MenuProps['items'], string] => 
   // @ts-ignore
   const menuItems = useMemo<MenuProps['items']>(() => {
     const sidebarItems = preprocessSidebar([...(sidebarData ?? [])]);
-
     const getItemTag = (tag: string | { color: string; title: string }, show = true) =>
       tag &&
       show && (
