@@ -37,7 +37,7 @@ const colPropsHome = [
 const _colProps = [
   {
     xxl: 4,
-    xl: 5,
+    xl: 4,
     lg: 6,
     md: 6,
     sm: 24,
@@ -45,7 +45,7 @@ const _colProps = [
   },
   {
     xxl: 20,
-    xl: 19,
+    xl: 20,
     lg: 18,
     md: 18,
     sm: 0,

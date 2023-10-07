@@ -131,6 +131,7 @@ const useMenu = (options: UseMenuOptions = {}): [MenuProps['items'], string] => 
   // @ts-ignore
   const menuItems = useMemo<MenuProps['items']>(() => {
     const sidebarItems = preprocessSidebar([...(sidebarData ?? [])]);
+
     const getItemTag = (tag: string | { color: string; title: string }, show = true) =>
       tag &&
       show && (

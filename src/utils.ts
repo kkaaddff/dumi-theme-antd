@@ -57,12 +57,24 @@ export const handleFullSidebarData = (
       if (typeof _levelTwoNavInfo !== 'string') {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        frontmatterNavSecond.order = _levelTwoNavInfo?.second?.order ?? 0;
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        frontmatterNavSecond.title = _levelTwoNavInfo?.second?.title ?? _levelTwoNavInfo?.second;
+        if (_levelTwoNavInfo?.second === 'ignore') {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          frontmatterNavSecond.order =
+            _levelTwoNav.frontmatter?.type?.order ?? _levelTwoNavInfo?.order;
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          frontmatterNavSecond.title =
+            _levelTwoNav.frontmatter?.type?.title ?? _levelTwoNavInfo?.title;
+        } else {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          frontmatterNavSecond.order = _levelTwoNavInfo?.second?.order ?? 0;
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          frontmatterNavSecond.title = _levelTwoNavInfo?.second?.title ?? _levelTwoNavInfo?.second;
+        }
       }
-
       if (existedLevelOneNavList.includes(levelOneNavKey)) {
         // 已存在，直接 push 为 children
         nextFullSidebarData[levelOneNavKey].push({

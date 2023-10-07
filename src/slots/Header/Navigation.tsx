@@ -105,6 +105,7 @@ export default function Navigation({ isMobile, responsive }: NavigationProps) {
   const { github, socialLinks } = useAdditionalThemeConfig();
 
   // 统一使用 themeConfig.nav，使用 useNavData，当存在自定义 pages 时，会导致 nav 混乱
+  debugger;
   const navList = useNavData();
   const locale = useLocale();
   const moreLinks = useLocaleValue('moreLinks');
@@ -112,12 +113,10 @@ export default function Navigation({ isMobile, responsive }: NavigationProps) {
     .split('/')
     .map((_, i, arr) => arr.slice(0, i + 1).join('/'))
     .filter(Boolean);
-
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const menuItems: MenuProps['items'] = (navList ?? []).map((navItem) => {
     const { link, title, children } = navItem;
-
     const linkKeyValue = extractLinkKey(link);
 
     if (children) {
