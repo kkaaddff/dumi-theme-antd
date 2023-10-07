@@ -84,6 +84,21 @@ const useStyle = () => {
   };
 };
 
+const extractLinkKey = (link: string | undefined): string => {
+  return (link ?? '').split('/').slice(0, 2).join('/');
+};
+
+const generateLabel = (link: string | undefined, title: string, search: string): JSX.Element => {
+  if (isExternalLinks(link)) {
+    return (
+      <a href={`${link}${search}`} target="_blank" rel="noreferrer">
+        {title}
+      </a>
+    );
+  }
+  return <Link to={`${link}${search}`}>{title}</Link>;
+};
+
 export default function Navigation({ isMobile, responsive }: NavigationProps) {
   const { pathname, search } = useLocation();
   const { locales } = useSiteData();
@@ -98,39 +113,34 @@ export default function Navigation({ isMobile, responsive }: NavigationProps) {
     .map((_, i, arr) => arr.slice(0, i + 1).join('/'))
     .filter(Boolean);
 
-  const extractLinkKey = (link: string | undefined): string => {
-    return (link ?? '').split('/').slice(0, 2).join('/');
-  };
-
-  const generateLabel = (link: string | undefined, title: string): JSX.Element => {
-    if (isExternalLinks(link)) {
-      return (
-        <a href={`${link}${search}`} target="_blank" rel="noreferrer">
-          {title}
-        </a>
-      );
-    }
-    return <Link to={`${link}${search}`}>{title}</Link>;
-  };
-
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  const menuItems: MenuProps['items'] = (navList ?? []).map(({ link, title, children }) => {
+  const menuItems: MenuProps['items'] = (navList ?? []).map((navItem) => {
+    const { link, title, children } = navItem;
+
     const linkKeyValue = extractLinkKey(link);
 
     if (children) {
-      const childrens = {
-        label: title,
-        key: isExternalLinks(link) ? link : linkKeyValue,
-        children: children.map((child) => ({
-          label: generateLabel(child.link, child.title),
+      const childrens = children
+        .filter((child) => child.title !== 'ignore')
+        .map((child) => ({
+          label: generateLabel(child.link, child.title, search),
           key: link! + child.link
-        }))
-      };
-      return childrens;
+        }));
+
+      return childrens.length
+        ? {
+            label: title,
+            key: isExternalLinks(link) ? link : linkKeyValue,
+            children: childrens
+          }
+        : {
+            label: generateLabel(link, title, search),
+            key: isExternalLinks(link) ? link : linkKeyValue
+          };
     }
     return {
-      label: generateLabel(link, title),
+      label: generateLabel(link, title, search),
       key: isExternalLinks(link) ? link : linkKeyValue
     };
   });

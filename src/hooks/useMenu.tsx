@@ -1,7 +1,7 @@
 import type { MenuProps } from 'antd';
 import { Tag } from 'antd';
 import { ItemType } from 'antd/lib/menu/hooks/useItems';
-import type { ISidebarGroup, ISidebarItem } from 'dumi/dist/client/theme-api/types';
+import type { ISidebarGroup } from 'dumi/dist/client/theme-api/types';
 import { Link, useFullSidebarData, useLocation, useSidebarData } from 'dumi';
 import type { ReactNode } from 'react';
 import { useMemo } from 'react';
@@ -33,7 +33,11 @@ function preprocessSidebar(sidebarGroup: ISidebarGroup[]) {
     return !group.title && groupDefineChild
       ? {
           ...group,
+          children: group.children?.sort((a, b) => {
+            return a.frontmatter?.order! > b.frontmatter?.order! ? -1 : 1;
+          }),
           title: groupDefineChild.frontmatter?.type?.title,
+          order: groupDefineChild.frontmatter?.type?.order ?? 999,
           type: 'group'
         }
       : group;
@@ -107,7 +111,6 @@ const useMenu = (options: UseMenuOptions = {}): [MenuProps['items'], string] => 
         };
       }
       if (isItemMenu(menu)) {
-        // { title: 'aaa', link: '/xxx' }
         return {
           label: (
             <Link target={menu.target} to={menu.link}>
