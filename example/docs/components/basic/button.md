@@ -5,9 +5,6 @@ nav:
 type:
   title: 基本
   order: 1
-group:
-  title: 基本
-  order: 1
 title: Button
 subtitle: 按钮
 order: 3

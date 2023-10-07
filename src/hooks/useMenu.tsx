@@ -1,25 +1,44 @@
 import type { MenuProps } from 'antd';
 import { Tag } from 'antd';
 import { ItemType } from 'antd/lib/menu/hooks/useItems';
+import type { ISidebarGroup, ISidebarItem } from 'dumi/dist/client/theme-api/types';
 import { Link, useFullSidebarData, useLocation, useSidebarData } from 'dumi';
 import type { ReactNode } from 'react';
 import { useMemo } from 'react';
+import pkgJSON from '../../package.json';
 import type {
   ISidebarGroupModePathItem,
   SidebarEnhanceGroupType,
-  SidebarEnhanceItems,
   SidebarEnhanceItemType,
+  SidebarEnhanceItems,
   SidebarEnhanceSubType,
   SidebarEnhanceType
 } from '../types';
-import { removeTitleCode, handleFullSidebarData } from '../utils';
+import { handleFullSidebarData, removeTitleCode } from '../utils';
 import useAdditionalThemeConfig from './useAdditionalThemeConfig';
-import pkgJSON from '../../package.json';
 
 export type UseMenuOptions = {
   before?: ReactNode;
   after?: ReactNode;
 };
+
+/**
+ * 解析 sidebarGroup 数据
+ * 每一级的 group 都是由子级的 frontmatter 中的 type 字段决定的
+ * 给每一级补充完整的 group 字段后返回 sidebarGroup
+ */
+function preprocessSidebar(sidebarGroup: ISidebarGroup[]) {
+  return sidebarGroup.map((group) => {
+    const groupDefineChild = group.children?.find((item) => item.frontmatter?.type);
+    return !group.title && groupDefineChild
+      ? {
+          ...group,
+          title: groupDefineChild.frontmatter?.type?.title,
+          type: 'group'
+        }
+      : group;
+  });
+}
 
 const useMenu = (options: UseMenuOptions = {}): [MenuProps['items'], string] => {
   const { pathname, search } = useLocation();
@@ -105,9 +124,10 @@ const useMenu = (options: UseMenuOptions = {}): [MenuProps['items'], string] => 
     return currentSidebarEnhanceData.map(processMenu);
   }, [after, before, currentSidebarEnhanceData, linkTitleMap, search]);
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const menuItems = useMemo<MenuProps['items']>(() => {
-    const sidebarItems = [...(sidebarData ?? [])];
-
+    const sidebarItems = preprocessSidebar([...(sidebarData ?? [])]);
     const getItemTag = (tag: string | { color: string; title: string }, show = true) =>
       tag &&
       show && (
@@ -123,7 +143,31 @@ const useMenu = (options: UseMenuOptions = {}): [MenuProps['items'], string] => 
     return (
       sidebarItems?.reduce<Exclude<MenuProps['items'] | { order?: number }[], undefined>>(
         (result, group) => {
-          if (group?.title) {
+          if (group?.type === 'group') {
+            result.push({
+              type: 'group',
+              label: group?.title || 'group?.title',
+              order: group?.order,
+              key: group?.title,
+              children: group.children?.map((item) => ({
+                label: (
+                  <Link
+                    to={`${item.link}${search}`}
+                    style={{ display: 'flex', alignItems: 'center' }}
+                  >
+                    {before}
+                    <span key="english">{removeTitleCode(item?.title)}</span>
+                    <span className="chinese" key="chinese">
+                      {removeTitleCode(item.frontmatter?.subtitle)}
+                    </span>
+                    {getItemTag(item.frontmatter?.tag, !before && !after)}
+                    {after}
+                  </Link>
+                ),
+                key: item.link.replace(/(-cn$)/g, '')
+              }))
+            });
+          } else if (group?.title) {
             // sideBar menu group 模式, 默认以非 group 模式渲染
             const isSideBarGroupMode =
               sidebarGroupModePath === true
@@ -263,7 +307,6 @@ const useMenu = (options: UseMenuOptions = {}): [MenuProps['items'], string] => 
               }))
             );
           }
-
           // group 模式与 single 模式混合排序
           result.sort((a, b) => (a?.order < b?.order ? -1 : 1));
           return result;

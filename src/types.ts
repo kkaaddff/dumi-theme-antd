@@ -123,4 +123,4 @@ export interface IAllThemeConfig extends Omit<IThemeConfig, 'socialLinks'>, IAdd
   socialLinks?: IThemeConfig['socialLinks']; // https://github.com/umijs/dumi/pull/1694
 }
 
-export { IAdditionalThemeConfig, ILocaleEnhance, IFeature, IAction };
+export { IAction, IAdditionalThemeConfig, IFeature, ILocaleEnhance };

@@ -17,32 +17,6 @@ export default defineConfig({
   themeConfig: defineThemeConfig({
     name: 'dumi-theme-antd',
     lastUpdated: true,
-    nav: {
-      'zh-CN': [
-        { title: '指南', link: '/guide/introduce' },
-        { title: '配置', link: '/config/base' },
-        {
-          title: '示例',
-          link: '/demo',
-          children: [
-            { title: '示例1', link: '/secondary-sidebar-colors' },
-            { title: '示例2', link: '/secondary-sidebar-font' }
-          ]
-        }
-      ],
-      'en-US': [
-        { title: 'Guide', link: '/guide/introduce-en' },
-        { title: 'Config', link: '/config/base-en' },
-        {
-          title: 'Demo',
-          link: '/demo',
-          children: [
-            { title: 'Demo1', link: '/secondary-sidebar-colors-en' },
-            { title: 'Demo2', link: '/secondary-sidebar-font-en' }
-          ]
-        }
-      ]
-    },
     footer:
       'Made with<span style="color: rgb(255, 255, 255);">❤</span>by <span>KuangPF | Copyright © 2022-present</span>',
     github: 'https://github.com/KuangPF/dumi-theme-antd',

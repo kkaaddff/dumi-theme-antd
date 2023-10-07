@@ -1,6 +1,6 @@
 {
   "name": "@fta/dumi-theme-antd",
-  "version": "0.3.16",
+  "version": "0.3.18",
   "description": "Ant Design 5.0 官网风格类似的 dumi2 主题插件",
   "keywords": [
     "dumi",
@@ -73,6 +73,7 @@
     "@commitlint/cli": "^17.6.5",
     "@commitlint/config-conventional": "^17.6.5",
     "@emotion/babel-preset-css-prop": "11.10.0",
+    "@types/react": "^18.2.23",
     "@types/lodash": "^4.14.195",
     "@utopia/eslint-config-react": "^0.0.13",
     "@utopia/prettier-config-base": "^0.0.13",

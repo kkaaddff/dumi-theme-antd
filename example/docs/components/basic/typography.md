@@ -5,9 +5,6 @@ nav:
 type:
   title: 基本
   order: 1
-group:
-  title: 基本
-  order: 1
 title: Typography
 subtitle: 排版
 order: 5
