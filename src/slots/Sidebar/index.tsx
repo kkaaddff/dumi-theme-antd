@@ -1,6 +1,6 @@
 import { UnorderedListOutlined } from '@ant-design/icons';
 import { css } from '@emotion/react';
-import { Affix, Col, ConfigProvider, Menu } from 'antd';
+import { Col, ConfigProvider, Menu } from 'antd';
 import { useSidebarData } from 'dumi';
 import MobileMenu from 'rc-drawer';
 import 'rc-drawer/assets/index.css';
@@ -115,9 +115,10 @@ const useStyle = () => {
 
       .main-menu-inner {
         position: sticky;
-        top: 0;
-        height: 100vh;
-        max-height: 100vh;
+        top: 80px;
+        width: 100%;
+        height: calc(100vh - 80px);
+        max-height: calc(100vh - 80px);
         overflow: hidden;
       }
 
@@ -211,9 +212,7 @@ const Sidebar: FC = () => {
     </React.Fragment>
   ) : (
     <Col xxl={4} xl={4} lg={4} md={4} sm={20} xs={20} css={styles.mainMenu}>
-      <Affix>
-        <section className="main-menu-inner">{menuChild}</section>
-      </Affix>
+      <section className="main-menu-inner">{menuChild}</section>
     </Col>
   );
 };
