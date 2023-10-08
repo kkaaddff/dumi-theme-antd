@@ -75,7 +75,7 @@ const GlobalLayout: FC = () => {
 
   const updateMobileMode = useCallback(() => {
     updateSiteConfig({
-      isMobile: window.innerWidth < RESPONSIVE_MOBILE
+      isMobile: false
     });
   }, [updateSiteConfig]);
 
