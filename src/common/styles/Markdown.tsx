@@ -29,7 +29,7 @@ export default () => {
 
         .markdown p > img {
           margin: 34px 0;
-          box-shadow: 0 8px 20px rgba(143, 168, 191, 0.35);
+          // box-shadow: 0 8px 20px rgba(143, 168, 191, 0.35);
         }
 
         .markdown p > img.markdown-inline-image {
