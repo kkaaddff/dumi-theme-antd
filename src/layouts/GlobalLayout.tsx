@@ -7,7 +7,7 @@ import {
   extractStyle
 } from '@ant-design/cssinjs';
 import { ConfigProvider, FloatButton, theme as antdTheme } from 'antd';
-import { Outlet, usePrefersColor, useServerInsertedHTML } from 'dumi';
+import { Outlet, usePrefersColor, useRouteMeta, useServerInsertedHTML } from 'dumi';
 import type { FC } from 'react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import useAdditionalThemeConfig from '../hooks/useAdditionalThemeConfig';
@@ -17,7 +17,6 @@ import type { SiteContextProps } from '../slots/SiteContext';
 import SiteContext from '../slots/SiteContext';
 
 type SiteState = Partial<Omit<SiteContextProps, 'updateSiteContext'>>;
-const RESPONSIVE_MOBILE = 768;
 const SITE_STATE_LOCALSTORAGE_KEY = 'dumi-theme-antd-site-state';
 
 const defaultSiteState: SiteState = {
@@ -122,6 +121,10 @@ const GlobalLayout: FC = () => {
     const styleText = extractStyle(styleCache, true);
     return <style data-type="antd-cssinjs" dangerouslySetInnerHTML={{ __html: styleText }} />;
   });
+  const {
+    // 页面文本数据
+    texts
+  } = useRouteMeta();
 
   const BaseGlobalLayoutJSX = (
     <SiteContext.Provider value={siteContextValue}>
@@ -132,7 +135,7 @@ const GlobalLayout: FC = () => {
         }}
       >
         <Outlet />
-        {prefersColor.switch && (
+        {prefersColor.switch && texts.length ? (
           <>
             <FloatButton.BackTop style={{ bottom: 24 + 75 }} />
             <ThemeSwitch
@@ -140,7 +143,7 @@ const GlobalLayout: FC = () => {
               onChange={(nextTheme) => updateSiteConfig({ theme: nextTheme })}
             />
           </>
-        )}
+        ) : null}
       </ConfigProvider>
     </SiteContext.Provider>
   );

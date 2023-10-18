@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import DayJS from 'dayjs';
 import { useRouteMeta, useTabMeta } from 'dumi';
 import type { FC, ReactNode } from 'react';
-import { useMemo, useContext } from 'react';
+import { useMemo, useContext, useRef } from 'react';
 import PrevAndNext from '../../common/PrevAndNext';
 import LastUpdated from '../../common/LastUpdated';
 import EditLink from '../../common/EditLink';
@@ -109,12 +109,21 @@ type AnchorItem = {
   children?: AnchorItem[];
 };
 
+/** 删除 URL 中的第二个 # 以及其后面的所有内容 */
+function removeSecondHashAndAfter(url: string) {
+  const matches = url.match(/#/g);
+  if (matches && matches.length > 1) {
+    return url.replace(/(.*?#.*?)(#.*$)/, '$1');
+  }
+  return url;
+}
+
 const Content: FC<{ children: ReactNode }> = ({ children }) => {
   const meta = useRouteMeta();
   const tab = useTabMeta();
   const styles = useStyle();
-  const { token } = useSiteToken();
   const { direction } = useContext(SiteContext);
+  const locationHref = useRef(removeSecondHashAndAfter(globalThis.location.href));
 
   const debugDemos = useMemo(
     () => meta.toc?.filter((item) => item._debug_demo).map((item) => item.id) || [],
@@ -163,16 +172,16 @@ const Content: FC<{ children: ReactNode }> = ({ children }) => {
             <Anchor
               css={styles.toc}
               affix={false}
-              targetOffset={token.marginXXL}
+              targetOffset={120}
               showInkInFixed
               items={anchorItems.map((item) => ({
-                href: `#${item.id}`,
+                href: `${locationHref.current}#${item.id}`,
                 title: item.title,
                 key: item.id,
                 children: item.children
                   ?.filter((child) => !debugDemos.includes(child.id))
                   .map((child) => ({
-                    href: `#${child.id}`,
+                    href: `${locationHref.current}#${child.id}`,
                     title: (
                       <span className={classNames(debugDemos.includes(child.id) && 'toc-debug')}>
                         {child?.title}
@@ -233,7 +242,6 @@ const Content: FC<{ children: ReactNode }> = ({ children }) => {
             </Space>
           </Typography.Paragraph>
         ) : null}
-
         {children}
       </article>
       <div
